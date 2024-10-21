@@ -140,7 +140,7 @@ float Adafruit_LTR390::getUVI() {
   float resolution = (float)getResolution(); // getResolution() should return the resolution setting
 
   // Scale the UV data to 20-bits based on the resolution
-  float fUVI = (float)(uv_data << (20 - resolution)); // scale up to 20-bits of resolution
+  float fUVI = (float)(uv_data * (1 << (20 - resolution))); // scale up to 20-bits of resolution
   float fGain = gain / 18.0f; // Normalize the gain
 
   // Final UVI calculation: divide the scaled UV data by the gain and sensitivity factor (2300)
