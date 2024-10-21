@@ -128,6 +128,28 @@ uint32_t Adafruit_LTR390::readUVS(void) {
 }
 
 /*!
+ *  @brief  Calculate and return the UV Index (UVI) based on sensor data.
+ *  @returns Calculated UV Index (float). 20-bit and 18 gain mandatory
+ */
+float Adafruit_LTR390::getUVI() {
+  // Read the UV data (20-bit resolution)
+  uint32_t uv_data = readUVS();
+
+  // Obtain the gain and resolution values
+  float gain = (float)getGain(); // getGain() should return the gain setting
+  float resolution = (float)getResolution(); // getResolution() should return the resolution setting
+
+  // Scale the UV data to 20-bits based on the resolution
+  float fUVI = (float)(uv_data << (20 - resolution)); // scale up to 20-bits of resolution
+  float fGain = gain / 18.0f; // Normalize the gain
+
+  // Final UVI calculation: divide the scaled UV data by the gain and sensitivity factor (2300)
+  fUVI = fUVI / (fGain * 2300.0f);
+
+  return fUVI;
+}
+
+/*!
  *  @brief  Enable or disable the light sensor
  *  @param  en True to enable, False to disable
  */

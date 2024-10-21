@@ -90,6 +90,7 @@ public:
   bool newDataAvailable(void);
   uint32_t readUVS(void);
   uint32_t readALS(void);
+  float getUVI(void);
 
 private:
   Adafruit_I2CRegister *StatusReg;
